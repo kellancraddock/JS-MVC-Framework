@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title></title>
+	<!-- CSS -->
+	<link type="text/css" href="styles/css/master.css" rel="stylesheet" />
+	<!--[if lte IE 9]>
+	<script>
+		  document.createElement('header');
+		  document.createElement('nav');
+		  document.createElement('section');
+		  document.createElement('article');
+		  document.createElement('aside');
+		  document.createElement('footer');
+	</script>
+	<![endif]-->
+	<!-- JS libraries -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<!-- JS plugins -->	
+	
+	<!-- JS Helpers -->
+	
+	<!-- JS MVC -->
+	<script src="js/library/jsFrame.js"></script>
+	<script src="js/app/controllers/IndexController.js"></script>
+	<script src="js/app/views/IndexView.js"></script>
+	
+	<!-- JS scripts -->
+	<script src="js/bootstrap.js"></script>
+	<script>
+		$(function() {
+			new Bootstrap({
+				module: 'Default',
+				controller: 'Index',
+				action: 'index'
+			});
+		});
+	</script>
+  </head>
+  <body>
+    
+  </body>
+</html>
