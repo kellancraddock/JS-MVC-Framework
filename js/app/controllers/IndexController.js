@@ -1,4 +1,4 @@
-IndexController.prototype = new BaseController();
+//IndexController.prototype = new BaseController();
 function IndexController(viewStr) {
 	var self = this,
 		view = viewStr;
@@ -26,3 +26,4 @@ function IndexController(viewStr) {
 	 *
 	 */
 }
+//new Extend(IndexController, BaseController);

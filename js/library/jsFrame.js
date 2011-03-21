@@ -1,11 +1,26 @@
+window.extend = function(sub, super) {
+	var mySub = sub;
+	var mySuper = new super;
+	//Loop through all properties of super
+	for(var f in mySuper) {
+		if (!(f in mySub)) {
+			mySub[f] = mySuper[f]; //If the property does not exist in the sub add it
+		} else {
+			mySuper[f] = mySub[f]; //If the property does exist in the sub overwrite the one in the super
+		}
+	}
+}
+
 function BaseController() {
 }
 
-function BaseBootstrap(options) {
+function BaseBootstrap() {
 	var self = this;
-	this.module = (options.module) ? options.module : 'Default'; //controller is either a string, or false
+	/*
+this.module = (options.module) ? options.module : 'Default'; //controller is either a string, or false
 	this.controller = (options.controller) ? options.controller : 'Index'; //controller is either a string, or false
 	this.action = (options.action) ? options.action : 'index'; //controller is either a string, or false
+*/
 	
 	this.view; //The View
 	this.appOn = true; //appOn Bool, turns the app on or off.
@@ -57,5 +72,5 @@ function BaseBootstrap(options) {
 	}
 	
 	//INIT THE BOOTSTRAP
-	self.init();
+	//self.init();
 }
