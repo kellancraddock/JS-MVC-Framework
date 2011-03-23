@@ -1,5 +1,5 @@
-window.extend = function(sub, super) {
-	var mySub = sub;
+Object.prototype.extends = function(super) {
+	var mySub = this;
 	var mySuper = new super;
 	//Loop through all properties of super
 	for(var f in mySuper) {
@@ -11,26 +11,67 @@ window.extend = function(sub, super) {
 	}
 }
 
-function BaseController() {
+function FrontController_Abstract() {
+	
+	var baseUrl;
+	var route = {};
+	
+	this.init = function() {
+		var url = location.pathname.split('/');
+		route.module = (url[0]) ? url[0] : 'Default'; 
+		route.controller = (url[1]) ? url[1] : 'Index'; 
+		route.action = (url[2]) ? url[2] : 'index';
+		console.log(route);
+	}()
+	
+	this.setRoute = function(setroute) {
+		route = setroute;
+	}
+	
+	this.getRoute = function() {
+		return route;
+	}
+	
+	//ATTEMPT TO LOAD CONTROLLER AND VIEW
+	this.dispatch = function() {
+		if (route.controller) { //If the controller is defined, create the view and controller strings
+			var controller = route.controller + 'Controller';
+			var action = route.action + 'Action';
+			var view = route.controller + 'View';
+			if (window[view]) { //If the view exists, load it
+				self.view = new window[view]();
+			}
+			if (window[controller]) { //If the controller exists
+				self.controller = new window[controller](self.view);
+				self.controller.init();
+				self.controller[action]();
+			} else { //No controller class, throw error
+				//self.errors.push('The specified Controller: ' + options.controller + ' does not exist.');
+			}
+		} else { //No specifed controller, throw error
+			//self.errors.push('No Controller was specified.');
+		}		
+	}
 }
 
-function BaseBootstrap() {
+function Controller_Abstract() {
+	this.init = function() {
+	}
+}
+
+function Bootstrap_Abstract() {
 	var self = this;
-	/*
-this.module = (options.module) ? options.module : 'Default'; //controller is either a string, or false
-	this.controller = (options.controller) ? options.controller : 'Index'; //controller is either a string, or false
-	this.action = (options.action) ? options.action : 'index'; //controller is either a string, or false
-*/
 	
 	this.view; //The View
 	this.appOn = true; //appOn Bool, turns the app on or off.
 	this.errors = new Array(); //Array for holding errors.
-	this.throwExceptions = false; //Bool for throwing exceptions
+	this.throwExceptions = true; //Bool for throwing exceptions
+	this.options = {};
 	
 	//INITALIZE AND ATTEMPT TO START THE APP
 	this.init = function() {
 		if (self.appOn) {
-			self.startMVC() //Start MVC	
+			//self.startMVC() //Start MVC	
 		} else {
 			self.errors.push('Application is off.');
 		}
@@ -46,31 +87,16 @@ this.module = (options.module) ? options.module : 'Default'; //controller is eit
 		}
 	}
 	
-	//ATTEMPT TO LOAD CONTROLLER AND VIEW
-	this.startMVC = function() {
-		if (self.controller) { //If the controller is defined, create the view and controller strings
-			var controller = self.controller + 'Controller';
-			var action = self.action + 'Action';
-			var view = self.controller + 'View';
-			if (window[view]) { //If the view exists, load it
-				self.view = new window[view]();
-			}
-			if (window[controller]) { //If the controller exists
-				self.controller = new window[controller](self.view);
-				self.controller[action]();
-			} else { //No controller class, throw error
-				self.errors.push('The specified Controller: ' + self.controller + ' does not exist.');
-			}
-		} else { //No specifed controller, throw error
-			self.errors.push('No Controller was specified.');
-		}		
+	this.getFrontController = function() {
+		return new FrontController_Abstract();
 	}
 	
 	//APP IS READY - MVC has loaded, all settings/vars are set. Execute the code below (eg. a startMVC callback).
 	this.onAppReady = function() {
 		console.log('app ready base');
 	}
-	
-	//INIT THE BOOTSTRAP
-	//self.init();
 }
+
+$(function() {
+	new Bootstrap();
+});

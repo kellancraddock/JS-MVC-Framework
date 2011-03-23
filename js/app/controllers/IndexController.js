@@ -4,8 +4,9 @@ function IndexController(viewStr) {
 		view = viewStr;
 	
 	this.init = function() {
+		console.log('init');
 		self.view = viewStr;
-	}();
+	};
 	//-------------------------------------------------
 	// Public Methods (Actions)
 	//-------------------------------------------------
