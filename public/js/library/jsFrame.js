@@ -15,7 +15,8 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function FrontController_Abstract() {
+function FrontController_Abstract() 
+{
 	
 	var self = this;
 	var route = {};
@@ -59,7 +60,7 @@ function FrontController_Abstract() {
 		}
 		if (window[controller]) { //If the controller exists
 			self.controller = new window[controller]();
-			self.controller.setView(view);
+			self.controller.setView(self.view);
 			if (self.controller[action]) {
 				self.controller.init();
 				self.controller[action]();
@@ -74,13 +75,11 @@ function FrontController_Abstract() {
 
 function Controller_Abstract() {
 	var self = this;
-	this.view = null;
+	this.view;
 	this.init = function() {
 	}
 	this.setView = function(setview) {
-		console.log('setview');
-		self.view = setview;
-		console.log(self.view);
+		this.view = setview;
 	}
 }
 
